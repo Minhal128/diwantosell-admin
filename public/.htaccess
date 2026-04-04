@@ -1,0 +1,13 @@
+Options -MultiViews
+RewriteEngine On
+RewriteBase /
+
+# If the request is for an existing file or directory, serve it directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Otherwise serve index.html and let React Router handle it
+RewriteRule . /index.html [L]
+
+# Fallback: Apache 404 → index.html (covers cases where mod_rewrite is restricted)
+ErrorDocument 404 /index.html
