@@ -8,10 +8,10 @@ interface Transaction {
   asset: string
   status: 'pending' | 'completed' | 'rejected' | 'failed'
   createdAt: string
-  user: {
+  user?: {
     name: string
     email: string
-  }
+  } | null
 }
 
 interface RecentTransactionsProps {
@@ -56,6 +56,7 @@ export function RecentTransactions({ transactions = [] }: RecentTransactionsProp
         <div className="space-y-3">
           {txList.slice(0, 5).map((tx) => {
             const { date, time } = formatDate(tx.createdAt)
+            const userName = tx.user?.name || 'Unknown User'
             return (
               <div
                 key={tx._id}
@@ -68,7 +69,7 @@ export function RecentTransactions({ transactions = [] }: RecentTransactionsProp
                       {tx.type === 'deposit' || tx.type === 'adjustment' ? 'Received' : 'Sent'}
                     </p>
                     <p className="text-[10px] uppercase font-bold text-[#6D767E] tracking-wider mt-0.5">
-                      {tx.user.name} • {tx.status}
+                      {userName} • {tx.status}
                     </p>
                   </div>
                 </div>
